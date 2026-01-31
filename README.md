@@ -21,6 +21,34 @@ The input file format is expected to be:
 
 ## Architecture
 
+```Phase 1: Parallel Split & Sort Pipeline
+=======================================
+[Input File] 
+      | (Read Stream)
+      v
+[Reader Task]
+      | (Push)
+      v
+(Sort Channel) <--- Bounded Capacity
+      | (Pull)
+      +-----> [Sorter 1] --+
+      |       (Quicksort)  |
+      +-----> [Sorter 2] --+--> (Write Channel) --> [Writer Task] --> [Sorted Chunk Files]
+      |       (Quicksort)  |
+      +-----> [Sorter N] --+
+
+
+Phase 2: K-Way Merge
+====================
+[Sorted Chunk Files] 
+      | (Stream Readers)
+      v
+[Multi-Pass Merger] <--- PriorityQueue (Min-Heap)
+      |
+      v
+[Final Output File]
+```
+
 The solution is split into three main components:
 
 * **`FileSorter`**: The core sorting engine.
