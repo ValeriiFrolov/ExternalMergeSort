@@ -53,10 +53,7 @@ echo ========================================================
 
 :: --- TEST SCENARIOS ---
 
-::call :RunTest "Config A (Low RAM)" 50 true 4 4
-::if !errorlevel! neq 0 exit /b
-
-call :RunTest "Config B (Balanced)" 200 true 4 2
+call :RunTest "Config A (Low RAM)" 50 true 4 4
 if !errorlevel! neq 0 exit /b
 
 call :RunTest "Config B (Balanced)" 200 true 4 2
